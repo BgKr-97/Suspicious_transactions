@@ -68,7 +68,7 @@ class RiskScoringModel:
 
             if not k:
                 return k, 0
-            return k, score_total
+            return ', '.join(k), score_total
 
         df[['reason_flags', 'risk_score']] = df.apply(reasons, axis=1, result_type='expand')
 

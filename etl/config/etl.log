@@ -12,3 +12,13 @@
 [2025-05-13 20:47:03,610] INFO - database._fetch_df:44 - Успешно извлечено 5000 строк из таблиц схемы 'staging'
 [2025-05-13 20:47:03,906] INFO - database.create_datamart:62 - DDL-скрипт успешно выполнен: 'sql_data_mart.sql'
 [2025-05-13 20:47:07,444] INFO - database.load_datamart:98 - Загружено 5000 строк в таблицу data_mart.data_table
+[2025-05-13 22:43:10,776] INFO - database.__init__:20 - Успешное подключение к базе данных 'dwh_transaction' на 45.131.41.4:5433 как пользователь 'max'
+[2025-05-13 22:43:10,993] INFO - database._fetch_df:44 - Успешно извлечено 5000 строк из таблиц схемы 'staging'
+[2025-05-13 22:43:14,147] INFO - database._fetch_df:44 - Успешно извлечено 5000 строк из таблиц схемы 'staging'
+[2025-05-13 22:43:14,204] INFO - database.create_datamart:62 - DDL-скрипт успешно выполнен: 'sql_data_mart.sql'
+[2025-05-13 22:43:16,744] INFO - database.load_datamart:98 - Загружено 5000 строк в таблицу data_mart.data_table
+[2025-05-13 22:44:57,146] INFO - database.__init__:20 - Успешное подключение к базе данных 'dwh_transaction' на 45.131.41.4:5433 как пользователь 'max'
+[2025-05-13 22:44:57,343] INFO - database._fetch_df:44 - Успешно извлечено 5000 строк из таблиц схемы 'staging'
+[2025-05-13 22:45:00,388] INFO - database._fetch_df:44 - Успешно извлечено 5000 строк из таблиц схемы 'staging'
+[2025-05-13 22:45:00,439] INFO - database.create_datamart:62 - DDL-скрипт успешно выполнен: 'sql_data_mart.sql'
+[2025-05-13 22:45:02,907] INFO - database.load_datamart:98 - Загружено 5000 строк в таблицу data_mart.data_table
