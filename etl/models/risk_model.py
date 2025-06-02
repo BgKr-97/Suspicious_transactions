@@ -65,10 +65,11 @@ class RiskScoringModel:
                 else:
                     if row['client_age'] >= 60:
                         k.append(reason)
+            k = ', '.join(k)
 
             if not k:
                 return k, 0
-            return ', '.join(k), score_total
+            return k, score_total
 
         df[['reason_flags', 'risk_score']] = df.apply(reasons, axis=1, result_type='expand')
 

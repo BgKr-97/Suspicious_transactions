@@ -6,6 +6,7 @@ from math import radians, sin, cos, sqrt, atan2
 
 from Database.database import DBExtractor
 from models.risk_model import RiskScoringModel
+import time
 
 
 # Вспомогательные функции
@@ -223,11 +224,6 @@ def detect_none_type(df: pd.DataFrame, is_read: bool = False) -> pd.DataFrame:
 
 
 def main():
-    pd.set_option('display.max_columns', None)
-    pd.set_option('display.width', None)
-    pd.set_option('display.max_colwidth', None)
-    pd.set_option('display.max_rows', None)
-
     # 1. Подгружаем параметры из окружения
     load_dotenv()
     DB_NAME = os.getenv('DB_NAME')
@@ -241,7 +237,7 @@ def main():
 
     extractor = DBExtractor(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT)
 
-    # 2. Загружаем данные из схемы staging и дополняем DataFrame булевыми столбцами: True, если признак выполняется
+    # 2. Загружаем данные из схемы core и дополняем DataFrame булевыми столбцами: True, если признак выполняется
     df_transactions = extractor.fetch_merged_transactions()
     df_main = (
         df_transactions
@@ -261,8 +257,11 @@ def main():
     )
 
     # 3. Инициализируем модель риска и рассчитываем: оценку риска, статус риска, причины риска
+    start_time = time.perf_counter()
     risk_model = RiskScoringModel(RISK_JSON)
     df_calculated_risks = risk_model.calculate_scores(df_main)
+    duration = time.perf_counter() - start_time
+    print(f'✅ Данные успешно обработаны за {duration:.2f} секунд., риск оценен.')
 
     # 4. Забираем с БД справочную информацию, необходимую для витрины, и объединяем с основным DataFrame
     df_info = extractor.fetch_merged_info()
@@ -274,8 +273,8 @@ def main():
 
     # Убираем лишние поля, не нужные в витрине
     df_data_mart.drop([
-        'birth_date', 'risk_geolocation_change', 'small_sum', 'none_type',
-        'blacklist', 'risk_big_sum', 'risk_night_time', 'oper_rate'], axis=1, inplace=True)
+       'birth_date', 'risk_geolocation_change', 'small_sum', 'none_type',
+       'blacklist', 'risk_big_sum', 'risk_night_time', 'oper_rate'], axis=1, inplace=True)
     extractor.load_datamart(df_data_mart, DM_SHEMA, DM_TABLE)
 
 if __name__ == '__main__':

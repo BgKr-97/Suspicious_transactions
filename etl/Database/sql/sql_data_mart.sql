@@ -1,10 +1,15 @@
 -- ===================================================================
--- 0. Создаём схему data_mart
+-- 0. Удаляем схему data_mart со всем содержимым
+-- ===================================================================
+DROP SCHEMA IF EXISTS data_mart CASCADE;
+
+-- ===================================================================
+-- 1. Создаём схему data_mart
 -- ===================================================================
 CREATE SCHEMA IF NOT EXISTS data_mart;
 
 -- ===================================================================
--- 1. Создаём таблицу витрины data_table
+-- 2. Создаём таблицу витрины data_table
 -- ===================================================================
 CREATE TABLE IF NOT EXISTS data_mart.data_table (
     -- Клиенты
@@ -25,12 +30,14 @@ CREATE TABLE IF NOT EXISTS data_mart.data_table (
     -- Геоданные отправителя
     sender_country           TEXT,
     sender_city              TEXT,
+    sender_region            TEXT,
     sender_latitude          NUMERIC,
     sender_longitude         NUMERIC,
 
     -- Геоданные получателя
     recipient_country        TEXT,
     recipient_city           TEXT,
+    recipient_region         TEXT,
     recipient_latitude       NUMERIC,
     recipient_longitude      NUMERIC,
 

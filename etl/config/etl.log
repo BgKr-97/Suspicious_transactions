@@ -22,3 +22,229 @@
 [2025-05-13 22:45:00,388] INFO - database._fetch_df:44 - Успешно извлечено 5000 строк из таблиц схемы 'staging'
 [2025-05-13 22:45:00,439] INFO - database.create_datamart:62 - DDL-скрипт успешно выполнен: 'sql_data_mart.sql'
 [2025-05-13 22:45:02,907] INFO - database.load_datamart:98 - Загружено 5000 строк в таблицу data_mart.data_table
+[2025-05-13 23:12:41,140] INFO - database.__init__:20 - Успешное подключение к базе данных 'dwh_transaction' на 45.131.41.4:5433 как пользователь 'max'
+[2025-05-13 23:12:41,346] INFO - database._fetch_df:44 - Успешно извлечено 5000 строк из таблиц схемы 'staging'
+[2025-05-13 23:12:44,610] INFO - database._fetch_df:44 - Успешно извлечено 5000 строк из таблиц схемы 'staging'
+[2025-05-13 23:12:44,665] INFO - database.create_datamart:62 - DDL-скрипт успешно выполнен: 'sql_data_mart.sql'
+[2025-05-13 23:12:47,428] INFO - database.load_datamart:98 - Загружено 5000 строк в таблицу data_mart.data_table
+[2025-05-16 17:55:44,601] INFO - database.__init__:20 - Успешное подключение к базе данных 'dwh_transaction' на 45.131.41.4:5433 как пользователь 'max'
+[2025-05-16 17:55:44,921] INFO - database._fetch_df:44 - Успешно извлечено 5000 строк из таблиц схемы 'staging'
+[2025-05-16 17:58:31,811] INFO - database.__init__:20 - Успешное подключение к базе данных 'dwh_transaction' на 45.131.41.4:5433 как пользователь 'max'
+[2025-05-16 17:58:32,556] INFO - database._fetch_df:44 - Успешно извлечено 5000 строк из таблиц схемы 'staging'
+[2025-05-16 18:53:20,293] INFO - database.__init__:20 - Успешное подключение к базе данных 'dwh_transaction' на 45.131.41.4:5433 как пользователь 'max'
+[2025-05-16 18:53:20,494] INFO - database._fetch_df:44 - Успешно извлечено 5000 строк из таблиц схемы 'staging'
+[2025-05-16 19:47:29,807] INFO - database.__init__:20 - Успешное подключение к базе данных 'dwh_transaction' на 45.131.41.4:5433 как пользователь 'max'
+[2025-05-16 19:47:30,003] INFO - database._fetch_df:44 - Успешно извлечено 5000 строк из таблиц схемы 'staging'
+[2025-05-26 21:40:22,736] INFO - database.__init__:21 - Успешное подключение к базе данных 'dwh_transaction' на 45.131.41.4:5433 как пользователь 'max'
+[2025-05-26 21:42:03,585] ERROR - database._fetch_df:49 - Ошибка при извлечении данных: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: -- ===================================================================
+-- 1. Извлекаем основные данные из схемы staging, необходимые для их трансформации
+-- ===================================================================
+SELECT
+    t.id AS transaction_id,
+    t.client_id,
+    cl.birth_date,
+    t.date_time,
+    t.amount,
+    tt.t_type,
+    src_city.latitude AS sender_latitude,
+    src_city.longitude AS sender_longitude,
+    dst_country.blacklist
+FROM core.transactions AS t
+JOIN core.clients AS cl
+    ON t.client_id = cl.client_id
+JOIN core.transaction_types AS tt
+    ON t.transaction_type_id = tt.id
+JOIN core.cities AS src_city
+    ON t.source_city_id = src_city.city_id
+JOIN core.cities AS dst_city
+    ON t.destination_city_id = dst_city.city_id
+JOIN core.countries AS dst_country
+    ON dst_city.country_id = dst_country.country_id;]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2025-05-26 21:54:28,812] INFO - database.__init__:21 - Успешное подключение к базе данных 'dwh_transaction' на 45.131.41.4:5433 как пользователь 'max'
+[2025-05-26 21:54:50,820] INFO - database._fetch_df:50 - Успешно извлечено 1000000 записей из base_info таблиц схемы 'core'.
+[2025-05-26 22:05:02,502] INFO - database._fetch_df:50 - Успешно извлечено 1000000 записей из additional_info таблиц схемы 'core'.
+[2025-05-26 22:05:04,042] INFO - database.create_datamart:71 - DDL-скрипт успешно выполнен: 'sql_data_mart.sql'
+[2025-05-26 22:16:24,055] ERROR - database.load_datamart:113 - Ошибка при загрузке данных в витрину: Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+[2025-05-26 22:44:29,102] INFO - database.__init__:22 - Успешное подключение к базе данных 'dwh_transaction' на 45.131.41.4:5433 как пользователь 'max'
+[2025-05-26 22:45:11,873] ERROR - database._fetch_df:57 - Ошибка при извлечении данных: (psycopg2.OperationalError) could not receive data from server: Software caused connection abort (0x00002745/10053)
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2025-05-26 22:45:22,471] INFO - database.__init__:22 - Успешное подключение к базе данных 'dwh_transaction' на 45.131.41.4:5433 как пользователь 'max'
+[2025-05-26 22:45:43,944] INFO - database._fetch_df:51 - Успешно извлечено 1000000 записей из base_info таблиц схемы 'core'.
+[2025-05-26 22:55:36,145] INFO - database._fetch_df:51 - Успешно извлечено 1000000 записей из additional_info таблиц схемы 'core'.
+[2025-05-26 22:55:37,634] INFO - database.create_datamart:72 - DDL-скрипт успешно выполнен: 'sql_data_mart.sql'
+[2025-05-26 22:55:39,443] INFO - database.load_datamart:104 - Загрузка 1000000 строк в 100 частях по 10000 строк
+[2025-05-26 22:55:44,936] INFO - database.load_datamart:120 - ✅ Загружена часть 1/100 (10000 строк)
+[2025-05-26 22:55:50,231] INFO - database.load_datamart:120 - ✅ Загружена часть 2/100 (10000 строк)
+[2025-05-26 22:55:55,458] INFO - database.load_datamart:120 - ✅ Загружена часть 3/100 (10000 строк)
+[2025-05-26 22:56:00,734] INFO - database.load_datamart:120 - ✅ Загружена часть 4/100 (10000 строк)
+[2025-05-26 22:56:06,002] INFO - database.load_datamart:120 - ✅ Загружена часть 5/100 (10000 строк)
+[2025-05-26 22:56:11,393] INFO - database.load_datamart:120 - ✅ Загружена часть 6/100 (10000 строк)
+[2025-05-26 22:56:16,671] INFO - database.load_datamart:120 - ✅ Загружена часть 7/100 (10000 строк)
+[2025-05-26 22:56:21,951] INFO - database.load_datamart:120 - ✅ Загружена часть 8/100 (10000 строк)
+[2025-05-26 22:56:27,149] INFO - database.load_datamart:120 - ✅ Загружена часть 9/100 (10000 строк)
+[2025-05-26 22:56:32,310] INFO - database.load_datamart:120 - ✅ Загружена часть 10/100 (10000 строк)
+[2025-05-26 22:56:37,527] INFO - database.load_datamart:120 - ✅ Загружена часть 11/100 (10000 строк)
+[2025-05-26 22:56:42,867] INFO - database.load_datamart:120 - ✅ Загружена часть 12/100 (10000 строк)
+[2025-05-26 22:56:48,196] INFO - database.load_datamart:120 - ✅ Загружена часть 13/100 (10000 строк)
+[2025-05-26 22:56:53,630] INFO - database.load_datamart:120 - ✅ Загружена часть 14/100 (10000 строк)
+[2025-05-26 22:56:58,895] INFO - database.load_datamart:120 - ✅ Загружена часть 15/100 (10000 строк)
+[2025-05-26 22:57:04,481] INFO - database.load_datamart:120 - ✅ Загружена часть 16/100 (10000 строк)
+[2025-05-26 22:57:09,901] INFO - database.load_datamart:120 - ✅ Загружена часть 17/100 (10000 строк)
+[2025-05-26 22:57:15,307] INFO - database.load_datamart:120 - ✅ Загружена часть 18/100 (10000 строк)
+[2025-05-26 22:57:20,613] INFO - database.load_datamart:120 - ✅ Загружена часть 19/100 (10000 строк)
+[2025-05-26 22:57:26,382] INFO - database.load_datamart:120 - ✅ Загружена часть 20/100 (10000 строк)
+[2025-05-26 22:57:31,814] INFO - database.load_datamart:120 - ✅ Загружена часть 21/100 (10000 строк)
+[2025-05-26 22:57:37,197] INFO - database.load_datamart:120 - ✅ Загружена часть 22/100 (10000 строк)
+[2025-05-26 22:57:42,693] INFO - database.load_datamart:120 - ✅ Загружена часть 23/100 (10000 строк)
+[2025-05-26 22:57:48,062] INFO - database.load_datamart:120 - ✅ Загружена часть 24/100 (10000 строк)
+[2025-05-26 22:57:53,700] INFO - database.load_datamart:120 - ✅ Загружена часть 25/100 (10000 строк)
+[2025-05-26 22:57:59,338] INFO - database.load_datamart:120 - ✅ Загружена часть 26/100 (10000 строк)
+[2025-05-26 22:58:04,730] INFO - database.load_datamart:120 - ✅ Загружена часть 27/100 (10000 строк)
+[2025-05-26 22:58:10,120] INFO - database.load_datamart:120 - ✅ Загружена часть 28/100 (10000 строк)
+[2025-05-26 22:58:15,642] INFO - database.load_datamart:120 - ✅ Загружена часть 29/100 (10000 строк)
+[2025-05-26 22:58:21,673] INFO - database.load_datamart:120 - ✅ Загружена часть 30/100 (10000 строк)
+[2025-05-26 22:58:27,334] INFO - database.load_datamart:120 - ✅ Загружена часть 31/100 (10000 строк)
+[2025-05-26 22:58:33,014] INFO - database.load_datamart:120 - ✅ Загружена часть 32/100 (10000 строк)
+[2025-05-26 22:58:38,426] INFO - database.load_datamart:120 - ✅ Загружена часть 33/100 (10000 строк)
+[2025-05-26 22:58:43,761] INFO - database.load_datamart:120 - ✅ Загружена часть 34/100 (10000 строк)
+[2025-05-26 22:58:49,205] INFO - database.load_datamart:120 - ✅ Загружена часть 35/100 (10000 строк)
+[2025-05-26 22:58:54,486] INFO - database.load_datamart:120 - ✅ Загружена часть 36/100 (10000 строк)
+[2025-05-26 22:58:59,881] INFO - database.load_datamart:120 - ✅ Загружена часть 37/100 (10000 строк)
+[2025-05-26 22:59:05,245] INFO - database.load_datamart:120 - ✅ Загружена часть 38/100 (10000 строк)
+[2025-05-26 22:59:10,673] INFO - database.load_datamart:120 - ✅ Загружена часть 39/100 (10000 строк)
+[2025-05-26 22:59:15,957] INFO - database.load_datamart:120 - ✅ Загружена часть 40/100 (10000 строк)
+[2025-05-26 22:59:21,555] INFO - database.load_datamart:120 - ✅ Загружена часть 41/100 (10000 строк)
+[2025-05-26 22:59:26,937] INFO - database.load_datamart:120 - ✅ Загружена часть 42/100 (10000 строк)
+[2025-05-26 22:59:32,413] INFO - database.load_datamart:120 - ✅ Загружена часть 43/100 (10000 строк)
+[2025-05-26 22:59:37,660] INFO - database.load_datamart:120 - ✅ Загружена часть 44/100 (10000 строк)
+[2025-05-26 22:59:43,048] INFO - database.load_datamart:120 - ✅ Загружена часть 45/100 (10000 строк)
+[2025-05-26 22:59:48,626] INFO - database.load_datamart:120 - ✅ Загружена часть 46/100 (10000 строк)
+[2025-05-26 22:59:54,107] INFO - database.load_datamart:120 - ✅ Загружена часть 47/100 (10000 строк)
+[2025-05-26 22:59:59,250] INFO - database.load_datamart:120 - ✅ Загружена часть 48/100 (10000 строк)
+[2025-05-26 23:00:04,640] INFO - database.load_datamart:120 - ✅ Загружена часть 49/100 (10000 строк)
+[2025-05-26 23:00:10,193] INFO - database.load_datamart:120 - ✅ Загружена часть 50/100 (10000 строк)
+[2025-05-26 23:00:15,548] INFO - database.load_datamart:120 - ✅ Загружена часть 51/100 (10000 строк)
+[2025-05-26 23:00:20,881] INFO - database.load_datamart:120 - ✅ Загружена часть 52/100 (10000 строк)
+[2025-05-26 23:00:26,734] INFO - database.load_datamart:120 - ✅ Загружена часть 53/100 (10000 строк)
+[2025-05-26 23:00:32,294] INFO - database.load_datamart:120 - ✅ Загружена часть 54/100 (10000 строк)
+[2025-05-26 23:00:37,624] INFO - database.load_datamart:120 - ✅ Загружена часть 55/100 (10000 строк)
+[2025-05-26 23:00:42,978] INFO - database.load_datamart:120 - ✅ Загружена часть 56/100 (10000 строк)
+[2025-05-26 23:00:49,395] INFO - database.load_datamart:120 - ✅ Загружена часть 57/100 (10000 строк)
+[2025-05-26 23:00:55,773] INFO - database.load_datamart:120 - ✅ Загружена часть 58/100 (10000 строк)
+[2025-05-26 23:01:01,150] INFO - database.load_datamart:120 - ✅ Загружена часть 59/100 (10000 строк)
+[2025-05-26 23:01:07,882] INFO - database.load_datamart:120 - ✅ Загружена часть 60/100 (10000 строк)
+[2025-05-26 23:01:15,106] INFO - database.load_datamart:120 - ✅ Загружена часть 61/100 (10000 строк)
+[2025-05-26 23:01:21,053] INFO - database.load_datamart:120 - ✅ Загружена часть 62/100 (10000 строк)
+[2025-05-26 23:01:27,837] INFO - database.load_datamart:120 - ✅ Загружена часть 63/100 (10000 строк)
+[2025-05-26 23:01:34,712] INFO - database.load_datamart:120 - ✅ Загружена часть 64/100 (10000 строк)
+[2025-05-26 23:01:40,113] INFO - database.load_datamart:120 - ✅ Загружена часть 65/100 (10000 строк)
+[2025-05-26 23:01:45,706] INFO - database.load_datamart:120 - ✅ Загружена часть 66/100 (10000 строк)
+[2025-05-26 23:01:51,312] INFO - database.load_datamart:120 - ✅ Загружена часть 67/100 (10000 строк)
+[2025-05-26 23:01:57,493] INFO - database.load_datamart:120 - ✅ Загружена часть 68/100 (10000 строк)
+[2025-05-26 23:02:02,960] INFO - database.load_datamart:120 - ✅ Загружена часть 69/100 (10000 строк)
+[2025-05-26 23:02:08,725] INFO - database.load_datamart:120 - ✅ Загружена часть 70/100 (10000 строк)
+[2025-05-26 23:02:14,298] INFO - database.load_datamart:120 - ✅ Загружена часть 71/100 (10000 строк)
+[2025-05-26 23:02:19,618] INFO - database.load_datamart:120 - ✅ Загружена часть 72/100 (10000 строк)
+[2025-05-26 23:02:24,992] INFO - database.load_datamart:120 - ✅ Загружена часть 73/100 (10000 строк)
+[2025-05-26 23:02:30,685] INFO - database.load_datamart:120 - ✅ Загружена часть 74/100 (10000 строк)
+[2025-05-26 23:02:36,384] INFO - database.load_datamart:120 - ✅ Загружена часть 75/100 (10000 строк)
+[2025-05-26 23:02:41,834] INFO - database.load_datamart:120 - ✅ Загружена часть 76/100 (10000 строк)
+[2025-05-26 23:02:47,261] INFO - database.load_datamart:120 - ✅ Загружена часть 77/100 (10000 строк)
+[2025-05-26 23:02:52,639] INFO - database.load_datamart:120 - ✅ Загружена часть 78/100 (10000 строк)
+[2025-05-26 23:02:58,114] INFO - database.load_datamart:120 - ✅ Загружена часть 79/100 (10000 строк)
+[2025-05-26 23:03:03,493] INFO - database.load_datamart:120 - ✅ Загружена часть 80/100 (10000 строк)
+[2025-05-26 23:03:08,955] INFO - database.load_datamart:120 - ✅ Загружена часть 81/100 (10000 строк)
+[2025-05-26 23:03:14,189] INFO - database.load_datamart:120 - ✅ Загружена часть 82/100 (10000 строк)
+[2025-05-26 23:03:19,517] INFO - database.load_datamart:120 - ✅ Загружена часть 83/100 (10000 строк)
+[2025-05-26 23:03:24,991] INFO - database.load_datamart:120 - ✅ Загружена часть 84/100 (10000 строк)
+[2025-05-26 23:03:30,721] INFO - database.load_datamart:120 - ✅ Загружена часть 85/100 (10000 строк)
+[2025-05-26 23:03:36,250] INFO - database.load_datamart:120 - ✅ Загружена часть 86/100 (10000 строк)
+[2025-05-26 23:03:41,779] INFO - database.load_datamart:120 - ✅ Загружена часть 87/100 (10000 строк)
+[2025-05-26 23:03:47,054] INFO - database.load_datamart:120 - ✅ Загружена часть 88/100 (10000 строк)
+[2025-05-26 23:03:52,446] INFO - database.load_datamart:120 - ✅ Загружена часть 89/100 (10000 строк)
+[2025-05-26 23:03:57,793] INFO - database.load_datamart:120 - ✅ Загружена часть 90/100 (10000 строк)
+[2025-05-26 23:04:03,221] INFO - database.load_datamart:120 - ✅ Загружена часть 91/100 (10000 строк)
+[2025-05-26 23:04:08,634] INFO - database.load_datamart:120 - ✅ Загружена часть 92/100 (10000 строк)
+[2025-05-26 23:04:14,207] INFO - database.load_datamart:120 - ✅ Загружена часть 93/100 (10000 строк)
+[2025-05-26 23:04:19,586] INFO - database.load_datamart:120 - ✅ Загружена часть 94/100 (10000 строк)
+[2025-05-26 23:04:25,107] INFO - database.load_datamart:120 - ✅ Загружена часть 95/100 (10000 строк)
+[2025-05-26 23:04:30,540] INFO - database.load_datamart:120 - ✅ Загружена часть 96/100 (10000 строк)
+[2025-05-26 23:04:35,861] INFO - database.load_datamart:120 - ✅ Загружена часть 97/100 (10000 строк)
+[2025-05-26 23:04:41,413] INFO - database.load_datamart:120 - ✅ Загружена часть 98/100 (10000 строк)
+[2025-05-26 23:04:47,714] INFO - database.load_datamart:120 - ✅ Загружена часть 99/100 (10000 строк)
+[2025-05-26 23:04:54,216] INFO - database.load_datamart:120 - ✅ Загружена часть 100/100 (10000 строк)
+[2025-05-27 18:19:23,116] INFO - database.__init__:22 - Успешное подключение к базе данных 'dwh_transaction' на 45.131.41.4:5433 как пользователь 'max'
+[2025-05-27 18:19:25,132] INFO - database._fetch_df:51 - Успешно извлечено 90000 записей из base_info таблиц схемы 'core'.
+[2025-05-27 18:20:13,880] INFO - database._fetch_df:51 - Успешно извлечено 90000 записей из additional_info таблиц схемы 'core'.
+[2025-05-27 18:20:14,093] INFO - database.create_datamart:72 - DDL-скрипт успешно выполнен: 'sql_data_mart.sql'
+[2025-05-27 18:20:14,099] INFO - database.load_datamart:104 - Загрузка 1200 строк в 1 частях по 10000 строк
+[2025-05-27 18:20:14,734] INFO - database.load_datamart:122 - ✅ Загружена часть 1/1 (1200 строк)
+[2025-05-27 18:22:15,203] INFO - database.__init__:22 - Успешное подключение к базе данных 'dwh_transaction' на 45.131.41.4:5433 как пользователь 'max'
+[2025-05-27 18:22:17,190] INFO - database._fetch_df:51 - Успешно извлечено 90000 записей из base_info таблиц схемы 'core'.
+[2025-05-27 18:23:06,230] INFO - database._fetch_df:51 - Успешно извлечено 90000 записей из additional_info таблиц схемы 'core'.
+[2025-05-27 18:23:06,338] INFO - database.create_datamart:72 - DDL-скрипт успешно выполнен: 'sql_data_mart.sql'
+[2025-05-27 18:23:06,342] INFO - database.load_datamart:104 - Загрузка 1200 строк в 1 частях по 10000 строк
+[2025-05-27 18:23:07,008] INFO - database.load_datamart:122 - ✅ Загружена часть 1/1 (1200 строк)
+[2025-05-27 18:25:35,887] INFO - database.__init__:22 - Успешное подключение к базе данных 'dwh_transaction' на 45.131.41.4:5433 как пользователь 'max'
+[2025-05-27 18:25:38,455] INFO - database._fetch_df:51 - Успешно извлечено 90000 записей из base_info таблиц схемы 'core'.
+[2025-05-27 18:26:28,175] INFO - database._fetch_df:51 - Успешно извлечено 90000 записей из additional_info таблиц схемы 'core'.
+[2025-05-27 18:26:28,491] INFO - database.create_datamart:72 - DDL-скрипт успешно выполнен: 'sql_data_mart.sql'
+[2025-05-27 18:26:28,496] INFO - database.load_datamart:104 - Загрузка 1200 строк в 1 частях по 10000 строк
+[2025-05-27 18:26:29,551] INFO - database.load_datamart:122 - ✅ Загружена часть 1/1 (1200 строк)
+[2025-05-27 18:31:18,222] INFO - database.__init__:22 - Успешное подключение к базе данных 'dwh_transaction' на 45.131.41.4:5433 как пользователь 'max'
+[2025-05-27 18:31:39,068] ERROR - database._fetch_df:57 - Ошибка при извлечении данных: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: -- ===================================================================
+-- 1. Извлекаем основные данные из схемы staging, необходимые для их трансформации
+-- ===================================================================
+SELECT
+    t.id AS transaction_id,
+    t.client_id,
+    cl.birth_date,
+    t.date_time,
+    t.amount,
+    tt.t_type,
+    src_city.latitude AS sender_latitude,
+    src_city.longitude AS sender_longitude,
+    dst_country.blacklist
+FROM core.transactions AS t
+JOIN core.clients AS cl
+    ON t.client_id = cl.client_id
+JOIN core.transaction_types AS tt
+    ON t.transaction_type_id = tt.id
+JOIN core.cities AS src_city
+    ON t.source_city_id = src_city.city_id
+JOIN core.cities AS dst_city
+    ON t.destination_city_id = dst_city.city_id
+JOIN core.countries AS dst_country
+    ON dst_city.country_id = dst_country.country_id;]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2025-05-27 18:31:43,123] INFO - database.__init__:22 - Успешное подключение к базе данных 'dwh_transaction' на 45.131.41.4:5433 как пользователь 'max'
+[2025-05-27 18:32:05,539] INFO - database._fetch_df:51 - Успешно извлечено 1000000 записей из base_info таблиц схемы 'core'.
+[2025-05-27 18:42:06,074] INFO - database._fetch_df:51 - Успешно извлечено 1000000 записей из additional_info таблиц схемы 'core'.
+[2025-05-27 18:42:07,577] INFO - database.create_datamart:72 - DDL-скрипт успешно выполнен: 'sql_data_mart.sql'
+[2025-05-27 18:42:09,400] INFO - database.load_datamart:104 - Загрузка 1000000 строк в 100 частях по 10000 строк
+[2025-05-27 18:42:15,075] INFO - database.load_datamart:124 - ✅ Загружена часть 1/100 (10000 строк)
+[2025-05-27 18:42:20,594] INFO - database.load_datamart:124 - ✅ Загружена часть 2/100 (10000 строк)
+[2025-05-27 18:42:26,041] INFO - database.load_datamart:124 - ✅ Загружена часть 3/100 (10000 строк)
+[2025-05-27 18:42:31,540] INFO - database.load_datamart:124 - ✅ Загружена часть 4/100 (10000 строк)
+[2025-05-27 18:42:37,038] INFO - database.load_datamart:124 - ✅ Загружена часть 5/100 (10000 строк)
+[2025-05-27 18:42:42,574] INFO - database.load_datamart:124 - ✅ Загружена часть 6/100 (10000 строк)
+[2025-05-27 18:42:48,057] INFO - database.load_datamart:124 - ✅ Загружена часть 7/100 (10000 строк)
+[2025-05-27 18:42:53,486] INFO - database.load_datamart:124 - ✅ Загружена часть 8/100 (10000 строк)
+[2025-05-27 18:42:59,070] INFO - database.load_datamart:124 - ✅ Загружена часть 9/100 (10000 строк)
+[2025-05-27 18:43:04,740] INFO - database.load_datamart:124 - ✅ Загружена часть 10/100 (10000 строк)
+[2025-05-27 19:28:22,882] INFO - database.__init__:22 - Успешное подключение к базе данных 'dwh_transaction' на 45.131.41.4:5433 как пользователь 'max'
+[2025-05-27 19:28:24,882] INFO - database._fetch_df:51 - Успешно извлечено 90000 записей из base_info таблиц схемы 'core'.
+[2025-05-27 19:29:14,418] INFO - database._fetch_df:51 - Успешно извлечено 90000 записей из additional_info таблиц схемы 'core'.
+[2025-05-27 19:29:35,402] INFO - database.__init__:22 - Успешное подключение к базе данных 'dwh_transaction' на 45.131.41.4:5433 как пользователь 'max'
+[2025-05-27 19:29:37,402] INFO - database._fetch_df:51 - Успешно извлечено 90000 записей из base_info таблиц схемы 'core'.
+[2025-05-27 19:30:28,351] INFO - database._fetch_df:51 - Успешно извлечено 90000 записей из additional_info таблиц схемы 'core'.
